@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS files (
+  id SERIAL PRIMARY KEY NOT NULL,
+  filename VARCHAR(255) NOT NULL,
+  date_created DATE NOT NULL
+);
