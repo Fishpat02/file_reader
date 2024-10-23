@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+axum = { version = "*" }
+chrono = "*"
 dotenv = "0.15.0"
 sqlx = { version = "*", features = ["postgres", "runtime-tokio", "chrono"] }
 tokio = { version = "*", features = ["macros", "rt"] }
-chrono = "*"
