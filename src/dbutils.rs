@@ -14,7 +14,7 @@ pub mod dbutils {
 
     pub async fn write_files_to_db(
         pool: &Pool<Postgres>,
-        files: Vec<File>,
+        files: &Vec<File>,
     ) -> Result<(), sqlx::Error> {
         let db_files: Vec<File> = read_files_from_db(pool)
             .await?
@@ -23,9 +23,10 @@ pub mod dbutils {
             .collect();
 
         let files_to_push = if db_files.is_empty() {
-            files
+            files.clone()
         } else {
             files
+                .clone()
                 .into_iter()
                 .filter(|file| !db_files.contains(&file))
                 .collect()

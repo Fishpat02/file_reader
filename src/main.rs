@@ -23,12 +23,17 @@ async fn main() -> Result<(), sqlx::Error> {
         )
         .await?;
 
-    let files_from_db = read_files_from_db(&pool)
-        .await
-        .expect("No files found in db");
     let files_from_fs = read_files_from_fs("./")
         .await
         .expect("No files found in directory");
+
+    write_files_to_db(&pool, &files_from_fs)
+        .await
+        .expect("Couldn't write files to db");
+
+    let files_from_db = read_files_from_db(&pool)
+        .await
+        .expect("No files found in db");
 
     println!("Files from DB:");
     for file in &files_from_db {
@@ -43,10 +48,6 @@ async fn main() -> Result<(), sqlx::Error> {
     }
 
     println!();
-
-    write_files_to_db(&pool, files_from_fs)
-        .await
-        .expect("Couldn't write files to db");
 
     Ok(())
 }
